@@ -1,0 +1,30 @@
+{
+  "name": "fbchatbot",
+  "version": "1.0.0",
+  "description": "a facebook chat bot app",
+  "main": "app.js",
+  "scripts": {
+    "test": "Lol wut?",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhargavbhegde7/fbchatbot.git"
+  },
+  "keywords": [
+    "fb",
+    "chat",
+    "bot",
+    "facebook"
+  ],
+  "author": "bhegde",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhargavbhegde7/fbchatbot/issues"
+  },
+  "homepage": "https://github.com/bhargavbhegde7/fbchatbot#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1"
+  }
+}
