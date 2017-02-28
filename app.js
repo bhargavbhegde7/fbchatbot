@@ -1,11 +1,40 @@
+var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
 app.use(bodyParser.json());
 
-app.get('/hello', function(req, res){
-  res.send('world');
+var server = http.createServer(app);
+// Pass a http.Server instance to the listen method
+var io = require('socket.io').listen(server);
+
+// The server should start listening
+server.listen(process.env.PORT || 3000);
+
+var messageHandler = function(msg){
+  console.log('message: ' + msg);
+
+  io.emit('server-message', "received : "+msg);
+}
+
+var connectionHandler = function(socket){
+
+  console.log('user connected');
+
+  io.emit('fb-message', "this is way too cool !!");
+
+  socket.on('pi-message', messageHandler);
+}
+
+io.on('connection', connectionHandler);
+
+app.get('/testUrl', function(req, res){
+  res.send('URL get works fine');
+});
+
+app.post('/testUrl', function(req, res){
+  io.emit('fb-message', req.body);
 });
 
 app.get('/webhook', function(req, res) {
@@ -59,6 +88,8 @@ function receivedMessage(event) {
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
+
+  io.emit('fb-message', JSON.stringify(message));
 
   var messageId = message.mid;
 
@@ -121,4 +152,4 @@ function callSendAPI(messageData) {
   });
 }
 
-app.listen(process.env.PORT || 3000);
+//app.listen(process.env.PORT || 3000);
