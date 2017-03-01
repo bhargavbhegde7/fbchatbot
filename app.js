@@ -22,7 +22,7 @@ var connectionHandler = function(socket){
 
   console.log('user connected');
 
-  io.emit('fb-message', "this is way too cool !!");
+  io.emit('fb-message', '{"text":"this is cool yo!!"}');
 
   socket.on('pi-message', messageHandler);
 }
@@ -91,65 +91,5 @@ function receivedMessage(event) {
 
   io.emit('fb-message', JSON.stringify(message));
 
-  var messageId = message.mid;
 
-  var messageText = message.text;
-  var messageAttachments = message.attachments;
-
-  if (messageText) {
-
-    // If we receive a text message, check to see if it matches a keyword
-    // and send back the example. Otherwise, just echo the text we received.
-    switch (messageText) {
-      case 'generic':
-        sendGenericMessage(senderID);
-        break;
-
-      default:
-        sendTextMessage(senderID, messageText);
-    }
-  } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
-  }
 }
-
-function sendGenericMessage(recipientId, messageText) {
-  // To be expanded in later sections
-}
-
-function sendTextMessage(recipientId, messageText) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: messageText
-    }
-  };
-
-  callSendAPI(messageData);
-}
-
-function callSendAPI(messageData) {
-  request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAAQZCnGJRQjYBAKrJwXxjjlpzqUAZCz2Ji4Nf2jIfGh372t5w0ZC1mckZBbQ7tfx3cg9UeYMZAZAoXIDFH6k3OEZBVHueZAXXx3GH0SBifuXHAxlqZAEH4kc0R2YRjZA6qwQXMoXzPiW78Mzqon0pDMrGaLNyeyzgFKMAHFEHgykkDTQZDZD' },
-    method: 'POST',
-    json: messageData
-
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
-
-      console.log("Successfully sent generic message with id %s to recipient %s",
-        messageId, recipientId);
-    } else {
-      console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
-    }
-  });
-}
-
-//app.listen(process.env.PORT || 3000);

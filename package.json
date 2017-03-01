@@ -4,7 +4,6 @@
   "description": "a facebook chat bot app",
   "main": "app.js",
   "scripts": {
-    "test": "Lol wut?",
     "start": "node app.js"
   },
   "repository": {
