@@ -1,11 +1,17 @@
-var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
 app.use(bodyParser.json());
 
-var server = http.createServer(app);
+var options = {
+  key: fs.readFileSync('sslcert/private.key'),
+  cert: fs.readFileSync('sslcert/certificate.pem')
+};
+
+var server = https.createServer(options, app);
 // Pass a http.Server instance to the listen method
 var io = require('socket.io').listen(server);
 
