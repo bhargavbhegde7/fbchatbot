@@ -1,4 +1,5 @@
-var https = require('https');
+//var https = require('https');
+var http = require('http');
 var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -11,7 +12,9 @@ var options = {
   cert: fs.readFileSync('sslcert/certificate.pem')
 };
 
-var server = https.createServer(options, app);
+//var server = https.createServer(options, app);
+var server = http.createServer(app);
+
 // Pass a http.Server instance to the listen method
 var io = require('socket.io').listen(server);
 
@@ -28,7 +31,7 @@ var connectionHandler = function(socket){
 
   console.log('user connected');
 
-  io.emit('fb-message', '{"text":"this is cool yo!!"}');
+  io.emit('fb-message', '{"text":"welcome websock client!"}');
 
   socket.on('pi-message', messageHandler);
 }
