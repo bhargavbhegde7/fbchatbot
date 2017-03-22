@@ -43,7 +43,14 @@ app.get('/testUrl', function(req, res){
 });
 
 app.post('/testUrl', function(req, res){
+
+try{
+  console.log(req.body);
   io.emit('fb-message', req.body);
+  }catch(err){
+    res.sendStatus(err);
+  }
+  res.sendStatus(200);
 });
 
 app.get('/webhook', function(req, res) {
